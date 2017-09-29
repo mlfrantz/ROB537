@@ -8,8 +8,8 @@ X = np.insert(X, 5, 1, axis=1) #appends a 1 to the end of each row so that it ca
 Y = train_set[0:,5:]  #extracts just output varibles into seperate matrix
 weightMatrixWidth_V = Y.shape[1]
 
-numHidNodes = 3 #intial number of hidden nodes will be 2
-eta = 0.01 #graidient decent constant
+numHidNodes = 1 #intial number of hidden nodes will be 2
+eta = 0.1 #graidient decent constant
 
 np.random.seed(1)
 #creates a random weights matrix between nodes input and hidden. Size is rows= is the length of the number of input varible vector + 1 to account for bias, colums= number of hidden nodes
@@ -23,7 +23,25 @@ def sigmoid(x, derivative=False):
 
     return 1/(1+np.exp(-x))
 
-for i in range(150000):
+def compare(desired_Y,computed_Y): #checks to see if it passed or failed, not working!
+    error_y = np.mean(np.abs(desired_Y - computed_Y))
+    count = 0;
+    print(error_y)
+    for j in range(desired_Y.shape[0]): #iterates through all the rows
+        if((desired_Y[j,0]+error_y >= 1) and (desired_Y[j,1]-error_y <= 0)) : #if y1=1 and y2=0 then it fails, if y1=0 and y2=1 it passes
+            print("Failed")
+            count += 1
+        elif((desired_Y[j,0]-error_y <=0) and (desired_Y[j,1]+error_y >= 1)):
+            print("Passed")
+            count += 1
+        else:
+            print("Neither")
+
+    print("Percent correct= " + str(count/desired_Y.shape[0]))
+
+
+for i in range(100000):
+
     H = sigmoid(np.dot(X,W)) #gives me values for h1 and h2 hiden nodes
     H = np.insert(H, numHidNodes, 1, axis=1) #adds additional 1 for bias variable on output
     y = sigmoid(np.dot(H,V))
@@ -44,4 +62,4 @@ for i in range(150000):
     V += eta * np.dot(H.T,delta_output) #update all the weights from the hidden layer to the output layer
     W += eta * np.dot(X.T,delta_hidden)
 
-print(y)
+compare(Y,y)
