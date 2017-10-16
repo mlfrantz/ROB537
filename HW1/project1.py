@@ -2,8 +2,8 @@ import numpy as np
 from numpy import genfromtxt
 from math import isclose
 
-numHidNodes = 20 #intial number of hidden nodes will be 2
-eta = 0.01 #graidient decent constant
+numHidNodes = 4 #intial number of hidden nodes will be 2
+eta = 0.05 #graidient decent constant
 
 #define the sigmoid function. If the derivative is needed the it returns x*(1-x) which is the derivative of the sigmoid function x=1/(1+np.exp(-x))
 def sigmoid(x, derivative=False):
@@ -82,6 +82,6 @@ def runNN(inputSet, testSet1, testSet2, testSet3, iterations):
         compare(Y2,y2)
 
 
-
-runNN('train1.csv','test1.csv','test2.csv','test3.csv',100000)
+#runNN('train1.csv','test1.csv','test2.csv','test3.csv',200000)
 #runNN('train2.csv','test1.csv','test2.csv','test3.csv',100000)
+runNN('train3.csv','test1.csv','test2.csv','test3.csv',100000)
